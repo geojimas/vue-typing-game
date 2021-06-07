@@ -1,4 +1,4 @@
-# speed-typer
+# Type Game
 
 ## Project setup
 ```
