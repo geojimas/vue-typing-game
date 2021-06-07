@@ -1,0 +1,26 @@
+* {
+  font-family: 'Quicksand', sans-serif;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+
+.runner{
+  margin-top: 80px;
+  padding-left: 25px;
+  padding-right: 25px;
+}
+
+.row{
+  margin-top: 20px;
+  font-weight: bold;
+}
+
+.correct{
+  color: rgb(19, 184, 19);
+}
+
+.wrong{
+  color: rgb(218, 18, 18);
+}
