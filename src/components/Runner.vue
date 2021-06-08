@@ -1,6 +1,6 @@
 <template>
-  <h3 id="title" class="container">Type Game</h3>
-  <div class="runner container">
+  <h3 id="title" class="container animate__animated animate__slideInDown">Type Game</h3>
+  <div class="runner container animate__animated animate__zoomIn">
     <h3 v-if="loading">Loading...</h3>
     <h4 v-if="!loading">
       Your Score: {{ mapKeywords.filter(keyword => keyword.correct).length }} /
@@ -17,7 +17,7 @@
         {{ '||' }}
       </span>
     </p>
-    <div class="row" v-if="mapKeywords[index]">
+    <div class="row animate__animated animate__zoomIn" v-if="mapKeywords[index]">
       <div class="row">
         <div class="input-field col s6">
           <input
