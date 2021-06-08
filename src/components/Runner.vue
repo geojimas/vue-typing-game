@@ -1,19 +1,23 @@
 <template>
-  <h3>Typer Game</h3>
-  <div class="runner">
-    <h4>Your Score: {{mapKeywords.filter(keyword => keyword.correct).length}} / {{mapKeywords.length}}</h4>
+  <h3 id="title" class="container">Type Game</h3>
+  <div class="runner container">
+    <h3 v-if="loading">Loading...</h3>
+    <h4 v-if="!loading">
+      Your Score: {{ mapKeywords.filter(keyword => keyword.correct).length }} /
+      {{ mapKeywords.length }}
+    </h4>
     <p>
       <span
         v-for="keyword in mapKeywords"
         v-bind:key="keyword.text"
         v-bind:class="{ correct: keyword.correct, wrong: keyword.wrong }"
       >
-        {{ '|' }}
+        {{ '||' }}
         {{ keyword.text }}
-        {{ '|' }}
+        {{ '||' }}
       </span>
     </p>
-    <div class="row container">
+    <div class="row" v-if="mapKeywords[index]">
       <div class="row">
         <div class="input-field col s6">
           <input
@@ -22,26 +26,54 @@
             class="validate"
             v-model="input"
             v-on:keyup.enter="calcword"
+            required
           />
           <label for="last_name">Word</label>
         </div>
       </div>
     </div>
+    <div v-else class="thanks">
+      <h4 v-if="!loading">Thanks for Playing !!!</h4>
+      <a class="indigo darken-1 waves-effect waves-light btn-small" href="/">play Again</a>
+    </div>
   </div>
 </template>
 
 <script>
-import { computed, ref } from 'vue'
-import { useStore } from 'vuex'
+import { computed, ref, onBeforeMount } from 'vue'
+import Swal from 'sweetalert2'
+import axios from 'axios'
+
 export default {
   setup () {
     const index = ref(0)
-    const store = useStore()
     const input = ref('')
+    const loading = ref(false)
+    const words = ref([])
 
-    const allKeywords = computed(() => store.getters.getKeywords)
+    // life cycle
+    onBeforeMount(() => {
+      loading.value = true
+      axios
+        .get('https://random-word-api.herokuapp.com/word?number=20')
+        .then(response => {
+          words.value = response.data
+          loading.value = false
+        })
+        .catch(error => {
+          Swal.fire({
+            title: 'Error!',
+            text: 'No words Found !',
+            icon: 'error',
+            confirmButtonText: 'OK'
+          })
+          console.log(error)
+        })
+    })
+
+    // Get all words and convert them to Objects
     const mapKeywords = computed(() =>
-      allKeywords.value.map(keyword => {
+      words.value.map(keyword => {
         return {
           text: keyword,
           correct: false,
@@ -50,8 +82,8 @@ export default {
       })
     )
 
+    // Set the false and true answears
     const calcword = () => {
-      console.log(mapKeywords.value.length)
       const inpval = input.value
       if (mapKeywords.value[index.value].text === inpval) {
         mapKeywords.value[index.value].correct = true
@@ -65,13 +97,14 @@ export default {
       index.value++
     }
 
-    const score = mapKeywords.value.filter(keyword => keyword.correct).length
+    // const score = mapKeywords.value.filter(keyword => keyword.correct).length
     // {{mapKeywords.filter(keyword => keyword.correct).length}}
 
     return {
       input,
+      index,
+      loading,
       mapKeywords,
-      score,
       calcword
     }
   }

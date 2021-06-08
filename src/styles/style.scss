@@ -5,7 +5,6 @@
   box-sizing: border-box;
 }
 
-
 .runner{
   margin-top: 80px;
   padding-left: 25px;
@@ -17,10 +16,29 @@
   font-weight: bold;
 }
 
+.input-field{
+  margin-top: 30px;
+}
+
 .correct{
   color: rgb(19, 184, 19);
 }
 
 .wrong{
   color: rgb(218, 18, 18);
+}
+
+.thanks{
+  margin-top: 50px;
+}
+
+#title{
+  margin-top: 60px;
+}
+
+.page-footer{
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
 }
