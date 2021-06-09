@@ -2,7 +2,7 @@
   <h3 id="title" class="container animate__animated animate__slideInDown">Type Game</h3>
   <div class="runner container animate__animated animate__zoomIn">
     <h3 v-if="loading">Loading...</h3>
-    <h4 v-if="!loading">Your Score: {{ score }} / {{ mapKeywords.length }}</h4>
+    <h4 v-if="!loading">Your Score: <span id="sc">{{ score }}</span> / <span id="sc">{{ mapKeywords.length }}</span></h4>
     <p>
       <span
         v-for="keyword in mapKeywords"
