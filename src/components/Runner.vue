@@ -2,10 +2,7 @@
   <h3 id="title" class="container animate__animated animate__slideInDown">Type Game</h3>
   <div class="runner container animate__animated animate__zoomIn">
     <h3 v-if="loading">Loading...</h3>
-    <h4 v-if="!loading">
-      Your Score: {{ mapKeywords.filter(keyword => keyword.correct).length }} /
-      {{ mapKeywords.length }}
-    </h4>
+    <h4 v-if="!loading">Your Score: {{ score }} / {{ mapKeywords.length }}</h4>
     <p>
       <span
         v-for="keyword in mapKeywords"
@@ -30,6 +27,9 @@
           />
           <label for="last_name">Word</label>
         </div>
+        <div class="timer">
+          <Timer />
+        </div>
       </div>
     </div>
     <div v-else class="thanks">
@@ -40,16 +40,21 @@
 </template>
 
 <script>
+import Timer from './Timer.vue'
 import { computed, ref, onBeforeMount } from 'vue'
 import Swal from 'sweetalert2'
 import axios from 'axios'
 
 export default {
+  components: {
+    Timer
+  },
   setup () {
     const index = ref(0)
     const input = ref('')
     const loading = ref(false)
     const words = ref([])
+    const score = ref(0)
 
     // life cycle
     onBeforeMount(() => {
@@ -88,6 +93,7 @@ export default {
       if (mapKeywords.value[index.value].text === inpval) {
         mapKeywords.value[index.value].correct = true
         mapKeywords.value[index.value].wrong = false
+        score.value++
       } else {
         mapKeywords.value[index.value].correct = false
         mapKeywords.value[index.value].wrong = true
@@ -97,12 +103,10 @@ export default {
       index.value++
     }
 
-    // const score = mapKeywords.value.filter(keyword => keyword.correct).length
-    // {{mapKeywords.filter(keyword => keyword.correct).length}}
-
     return {
       input,
       index,
+      score,
       loading,
       mapKeywords,
       calcword
