@@ -29,6 +29,7 @@
         </div>
         <div class="timer">
           <Timer />
+          <!-- @endTimer="timeLeft" -->
         </div>
       </div>
     </div>
@@ -46,6 +47,11 @@ import Swal from 'sweetalert2'
 import axios from 'axios'
 
 export default {
+  data: function () {
+    return {
+      emitVal: 0
+    }
+  },
   components: {
     Timer
   },
