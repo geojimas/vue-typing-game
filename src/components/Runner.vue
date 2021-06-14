@@ -1,8 +1,10 @@
 <template>
-  <h3 id="title" class="container animate__animated animate__slideInDown">Type Game</h3>
+  <!-- <h3 id="title" class="container animate__animated animate__slideInDown">Type Game</h3> -->
   <div class="runner container animate__animated animate__zoomIn">
     <h3 v-if="loading">Loading...</h3>
-    <h4 v-if="!loading">Your Score: <span id="sc">{{ score }}</span> / <span id="sc">{{ mapKeywords.length }}</span></h4>
+    <h4 v-if="!loading">
+      Your Score: <span id="sc">{{ score }}</span> / <span id="sc">{{ mapKeywords.length }}</span>
+    </h4>
     <p>
       <span
         v-for="keyword in mapKeywords"
@@ -14,7 +16,7 @@
         {{ '||' }}
       </span>
     </p>
-    <div class="row animate__animated animate__zoomIn" v-if="mapKeywords[index]">
+    <div class="row animate__animated animate__zoomIn" v-if="disableInput === false && mapKeywords[index]">
       <div class="row">
         <div class="input-field col s6">
           <input
@@ -28,8 +30,7 @@
           <label for="last_name">Word</label>
         </div>
         <div class="timer">
-          <Timer />
-          <!-- @endTimer="timeLeft" -->
+          <Timer @endTimer="timeLeft" />
         </div>
       </div>
     </div>
@@ -45,7 +46,6 @@ import Timer from './Timer.vue'
 import { computed, ref, onBeforeMount } from 'vue'
 import Swal from 'sweetalert2'
 import axios from 'axios'
-
 export default {
   data: function () {
     return {
@@ -61,6 +61,7 @@ export default {
     const loading = ref(false)
     const words = ref([])
     const score = ref(0)
+    const disableInput = ref(false)
 
     // life cycle
     onBeforeMount(() => {
@@ -104,9 +105,13 @@ export default {
         mapKeywords.value[index.value].correct = false
         mapKeywords.value[index.value].wrong = true
       }
-
       input.value = ''
       index.value++
+    }
+
+    const timeLeft = () => {
+      console.log('time 0')
+      disableInput.value = true
     }
 
     return {
@@ -115,7 +120,9 @@ export default {
       score,
       loading,
       mapKeywords,
-      calcword
+      calcword,
+      timeLeft,
+      disableInput
     }
   }
 }

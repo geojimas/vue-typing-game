@@ -103,6 +103,7 @@ export default {
   methods: {
     onTimesUp () {
       clearInterval(this.timerInterval)
+      this.$emit('endTimer')
     },
 
     startTimer () {
