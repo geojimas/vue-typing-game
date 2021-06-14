@@ -1,10 +1,7 @@
 <template>
-  <!-- <h3 id="title" class="container animate__animated animate__slideInDown">Type Game</h3> -->
+  <h3 id="title" class="container animate__animated animate__slideInDown">Random Words</h3>
   <div class="runner container animate__animated animate__zoomIn">
     <h3 v-if="loading">Loading...</h3>
-    <h4 v-if="!loading">
-      Your Score: <span id="sc">{{ score }}</span> / <span id="sc">{{ mapKeywords.length }}</span>
-    </h4>
     <p>
       <span
         v-for="keyword in mapKeywords"
@@ -36,6 +33,9 @@
     </div>
     <div v-else class="thanks">
       <h4 v-if="!loading">Thanks for Playing !!!</h4>
+      <h4 v-if="!loading">
+        Your Score: <span id="sc">{{ score }}</span> / <span id="sc">{{ mapKeywords.length }}</span>
+      </h4>
       <a class="indigo darken-1 waves-effect waves-light btn-small" href="/">play Again</a>
     </div>
   </div>
