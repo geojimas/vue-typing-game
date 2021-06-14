@@ -5,6 +5,11 @@
   box-sizing: border-box;
 }
 
+.link:hover{
+  text-decoration: underline;
+  text-decoration-color: red;
+}
+
 .runner {
   margin-top: 80px;
   padding-left: 25px;
@@ -50,6 +55,10 @@
   bottom: 0;
   left: 0;
   right: 0;
+}
+
+.btn-small{
+  border-radius: 8px;
 }
 
 // Timer SCSS

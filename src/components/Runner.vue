@@ -8,9 +8,9 @@
         v-bind:key="keyword.text"
         v-bind:class="{ correct: keyword.correct, wrong: keyword.wrong }"
       >
-        {{ '||' }}
+        {{ '-' }}
         {{ keyword.text }}
-        {{ '||' }}
+        {{ '--' }}
       </span>
     </p>
     <div class="row animate__animated animate__zoomIn" v-if="disableInput === false && mapKeywords[index]">
