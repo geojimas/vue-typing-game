@@ -5,9 +5,15 @@
   box-sizing: border-box;
 }
 
-.link:hover{
+.link:hover {
   text-decoration: underline;
   text-decoration-color: red;
+}
+
+.runner .word-box {
+  border: 3px solid #34495e;
+  padding: 30px;
+  border-radius: 20px;
 }
 
 .runner {
@@ -16,7 +22,7 @@
   padding-right: 25px;
 }
 
-#sc{
+#sc {
   color: #f0932b;
   text-shadow: 0 0 2px #000;
 }
@@ -57,8 +63,12 @@
   right: 0;
 }
 
-.btn-small{
+.btn-small {
   border-radius: 8px;
+
+  &:active {
+    transform: scale(0.95);
+  }
 }
 
 // Timer SCSS
@@ -133,5 +143,11 @@
 
   .runner {
     margin-top: 40px;
+  }
+
+  .runner .word-box {
+    border: 3px solid #34495e;
+    padding: 8px;
+    border-radius: 20px;
   }
 }
