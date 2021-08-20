@@ -1,43 +1,51 @@
 <template>
-  <h3 v-if="!loading" id="title" class="container animate__animated animate__slideInDown">Random Words</h3>
-  <div class="runner container animate__animated animate__zoomIn">
-    <h3 class="container" v-if="loading">Loading...</h3>
-    <p class="word-box">
-      <span
-        v-for="keyword in mapKeywords"
-        v-bind:key="keyword.text"
-        v-bind:class="{ correct: keyword.correct, wrong: keyword.wrong }"
+  <div v-if="!loading">
+    <h3 id="title" class="container animate__animated animate__slideInDown">Random Words</h3>
+    <div class="runner container animate__animated animate__zoomIn">
+      <p class="word-box">
+        <span
+          v-for="keyword in mapKeywords"
+          v-bind:key="keyword.text"
+          v-bind:class="{ correct: keyword.correct, wrong: keyword.wrong }"
+        >
+          <img src="https://img.icons8.com/material/50/000000/fuse-symbol.png" width="20" />
+          {{ keyword.text }}
+        </span>
+      </p>
+      <div
+        class="row animate__animated animate__zoomIn"
+        v-if="disableInput === false && mapKeywords[index]"
       >
-        {{ '/' }}
-        {{ keyword.text }}
-        {{ '/' }}
-      </span>
-    </p>
-    <div class="row animate__animated animate__zoomIn" v-if="disableInput === false && mapKeywords[index]">
-      <div class="row">
-        <div class="input-field col s6">
-          <input
-            id="last_name"
-            type="text"
-            class="validate"
-            v-model="input"
-            v-on:keyup.enter="calcword"
-            required
-          />
-          <label for="last_name">Word</label>
-        </div>
-        <div class="timer">
-          <Timer @endTimer="timeLeft" />
+        <div class="row">
+          <div class="input-field col s6">
+            <input
+              id="last_name"
+              type="text"
+              class="validate"
+              v-model="input"
+              v-on:keyup.enter="calcword"
+            />
+            <label for="last_name">Word</label>
+          </div>
+          <div class="timer">
+            <Timer @endTimer="timeLeft" />
+          </div>
         </div>
       </div>
+      <div v-else class="thanks">
+        <h4 v-if="!loading">Thanks for Playing !!!</h4>
+        <h4 v-if="!loading">
+          Your Score: <span id="sc">{{ score }}</span> /
+          <span id="sc">{{ mapKeywords.length }}</span>
+        </h4>
+        <a v-if="!loading" class="indigo darken-1 waves-effect waves-light btn-small" href="/"
+          >play Again</a
+        >
+      </div>
     </div>
-    <div v-else class="thanks">
-      <h4 v-if="!loading">Thanks for Playing !!!</h4>
-      <h4 v-if="!loading">
-        Your Score: <span id="sc">{{ score }}</span> / <span id="sc">{{ mapKeywords.length }}</span>
-      </h4>
-      <a v-if="!loading" class="indigo darken-1 waves-effect waves-light btn-small" href="/">play Again</a>
-    </div>
+  </div>
+  <div class="container logo" v-else>
+    <img src="../assets/load.gif" alt="loading" width="220" height="150" />
   </div>
 </template>
 
@@ -47,7 +55,7 @@ import { computed, ref, onBeforeMount } from 'vue'
 import Swal from 'sweetalert2'
 import axios from 'axios'
 export default {
-  data: function () {
+  data: () => {
     return {
       emitVal: 0
     }

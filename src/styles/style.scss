@@ -5,6 +5,13 @@
   box-sizing: border-box;
 }
 
+.logo{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 200px;
+}
+
 .link:hover {
   text-decoration: underline;
   text-decoration-color: red;
@@ -14,6 +21,7 @@
   border: 3px solid #34495e;
   padding: 30px;
   border-radius: 20px;
+  font-weight: bold;
 }
 
 .runner {
@@ -46,6 +54,10 @@
 
 .thanks {
   margin-top: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 
 #title {
