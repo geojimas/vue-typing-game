@@ -21,6 +21,8 @@
 </template>
 
 <script>
+import { computed, onMounted, ref, watch } from 'vue'
+
 const FULL_DASH_ARRAY = 283
 const WARNING_THRESHOLD = 10
 const ALERT_THRESHOLD = 5
@@ -42,72 +44,72 @@ const COLOR_CODES = {
 const TIME_LIMIT = 95
 
 export default {
-  data () {
-    return {
-      timePassed: 0,
-      timerInterval: null
-    }
-  },
+  setup (_, { emit }) {
+    const timePassed = ref(0)
+    const timerInterval = ref(null)
 
-  computed: {
-    circleDasharray () {
-      return `${(this.timeFraction * FULL_DASH_ARRAY).toFixed(0)} 283`
-    },
+    const timeLeft = computed(() => {
+      return TIME_LIMIT - timePassed.value
+    })
 
-    formattedTimeLeft () {
-      const timeLeft = this.timeLeft
-      const minutes = Math.floor(timeLeft / 60)
-      let seconds = timeLeft % 60
+    const timeFraction = computed(() => {
+      const rawTimeFraction = timeLeft.value / TIME_LIMIT
+      return rawTimeFraction - (1 / TIME_LIMIT) * (1 - rawTimeFraction)
+    })
+
+    const circleDasharray = computed(() => {
+      return `${(timeFraction.value * FULL_DASH_ARRAY).toFixed(0)} 283`
+    })
+
+    const formattedTimeLeft = computed(() => {
+      const timeL = timeLeft.value
+      const minutes = Math.floor(timeL / 60)
+      let seconds = timeL % 60
 
       if (seconds < 10) {
         seconds = `0${seconds}`
       }
 
       return `${minutes}:${seconds}`
-    },
+    })
 
-    timeLeft () {
-      return TIME_LIMIT - this.timePassed
-    },
-
-    timeFraction () {
-      const rawTimeFraction = this.timeLeft / TIME_LIMIT
-      return rawTimeFraction - (1 / TIME_LIMIT) * (1 - rawTimeFraction)
-    },
-
-    remainingPathColor () {
+    const remainingPathColor = computed(() => {
       const { alert, warning, info } = COLOR_CODES
 
-      if (this.timeLeft <= alert.threshold) {
+      if (timeLeft.value <= alert.threshold) {
         return alert.color
-      } else if (this.timeLeft <= warning.threshold) {
+      } else if (timeLeft.value <= warning.threshold) {
         return warning.color
       } else {
         return info.color
       }
-    }
-  },
+    })
 
-  watch: {
-    timeLeft (newValue) {
+    watch(timeLeft, (newValue, oldValue) => {
       if (newValue === 0) {
-        this.onTimesUp()
+        onTimesUp()
       }
+    })
+
+    const onTimesUp = () => {
+      clearInterval(timerInterval.value)
+      emit('endTimer')
     }
-  },
 
-  mounted () {
-    this.startTimer()
-  },
+    const startTimer = () => {
+      timerInterval.value = setInterval(() => (timePassed.value += 1), 1000)
+    }
 
-  methods: {
-    onTimesUp () {
-      clearInterval(this.timerInterval)
-      this.$emit('endTimer')
-    },
+    onMounted(() => {
+      startTimer()
+    })
 
-    startTimer () {
-      this.timerInterval = setInterval(() => (this.timePassed += 1), 1000)
+    return {
+      timePassed,
+      timerInterval,
+      circleDasharray,
+      formattedTimeLeft,
+      remainingPathColor
     }
   }
 }
