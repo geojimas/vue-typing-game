@@ -17,15 +17,16 @@
         v-if="disableInput === false && mapKeywords[index]"
       >
         <div class="row">
-          <div class="input-field col s6">
+          <div class="input-field col s6" style="margin-left: 100px;">
             <input
-              id="last_name"
+              style="width: 300px;"
+              id="word"
               type="text"
-              class="validate"
+              required
               v-model="input"
               v-on:keyup.enter="calcword"
             />
-            <label for="last_name">Word</label>
+            <label for="word">Word</label>
           </div>
           <div class="timer">
             <Timer @endTimer="timeLeft" />
@@ -45,7 +46,7 @@
     </div>
   </div>
   <div class="container logo" v-else>
-    <img src="../assets/load.gif" alt="loading" width="220" height="150" />
+    <img src="../assets/load.gif" width="150" height="100" alt="logo" style="margin-top: 90px" />
   </div>
 </template>
 
