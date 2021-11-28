@@ -8,7 +8,7 @@
           v-bind:key="keyword.text"
           v-bind:class="{ correct: keyword.correct, wrong: keyword.wrong }"
         >
-          <img src="https://img.icons8.com/material/50/000000/fuse-symbol.png" width="20" />
+          <span class="separator" />
           {{ keyword.text }}
         </span>
       </p>
@@ -17,9 +17,8 @@
         v-if="disableInput === false && mapKeywords[index]"
       >
         <div class="row">
-          <div class="input-field col s6" style="margin-left: 100px;">
+          <div class="input-field">
             <input
-              style="width: 300px;"
               id="word"
               type="text"
               required
